@@ -81,6 +81,7 @@ void opcontrol(void);
 #ifdef __cplusplus
 /**
  * You can add C++-only headers here
+ #define DIGITAL_SENSOR_PORT 1
  */
 //#include <iostream>
 #endif

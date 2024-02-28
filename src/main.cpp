@@ -136,11 +136,19 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+#define DIGITAL_SENSOR_PORT 'F'
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
+  pros::Controller master (pros :: E_CONTROLLER_MASTER);
+  pros::ADIDigitalOut pneumatic_piston (DIGITAL_SENSOR_PORT);
+  bool piston_pos = false;
+  bool piston_pressing = false;
+
   
   while (true) {
+    
     
     // PID Tuner
     // After you find values that you're happy with, you'll have to set them in auton.cpp
@@ -167,7 +175,33 @@ void opcontrol() {
 
     // . . .
     // Put more user control code here!
+    if (master.get_digital(DIGITAL_L1)){
+      intake_motor.move(110);
+
+    } else if (master.get_digital(DIGITAL_R1)){
+      intake_motor.move(-110);
     
+    } else {
+      intake_motor.move(0);
+    }
+
+    if (master.get_digital(DIGITAL_A) && piston_pressing == false){
+      piston_pressing = true;
+      if (piston_pos == true){
+        piston_pos = false;
+      } else {
+        piston_pos = true;
+      }
+
+      pneumatic_piston.set_value(piston_pos);
+      
+    } else {
+      piston_pos = false;
+    }
+
+
+
+
     // . . .
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
