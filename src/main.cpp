@@ -100,7 +100,6 @@ void competition_initialize() {
 }
 
 
-
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -117,7 +116,7 @@ void autonomous() {
   chassis.drive_imu_reset(); // Reset gyro position to 0
   chassis.drive_sensor_reset(); // Reset drive sensors to 0
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency
-
+  
   ez::as::auton_selector.selected_auton_call(); // Calls selected auton from autonomous selector
 }
 
@@ -139,16 +138,19 @@ void autonomous() {
 #define DIGITAL_SENSOR_PORT 'F'
 void opcontrol() {
   // This is preference to what you like to drive on
-  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
-  pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
   pros::Controller master (pros :: E_CONTROLLER_MASTER);
+
+  pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
+
   pros::ADIDigitalOut pneumatic_piston (DIGITAL_SENSOR_PORT);
+
+
+  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  
   bool piston_pos = false;
   bool piston_pressing = false;
 
-  
   while (true) {
-    
     
     // PID Tuner
     // After you find values that you're happy with, you'll have to set them in auton.cpp
@@ -161,13 +163,13 @@ void opcontrol() {
         chassis.pid_tuner_toggle();
         
       // Trigger the selected autonomous routine
-      if (master.get_digital_new_press(DIGITAL_B)) 
-        autonomous();
+      // if (master.get_digital_new_press(DIGITAL_B)) 
+      //   autonomous();
 
       chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
     } 
 
-    // chassis.opcontrol_tank(); // Tank control
+    // chassis.opcontrol_tank(); // Tank control0
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE); // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT); // Flipped split arcade
@@ -175,6 +177,8 @@ void opcontrol() {
 
     // . . .
     // Put more user control code here!
+
+    // intake
     if (master.get_digital(DIGITAL_L1)){
       intake_motor.move(110);
 
@@ -185,23 +189,15 @@ void opcontrol() {
       intake_motor.move(0);
     }
 
-    if (master.get_digital(DIGITAL_A) && piston_pressing == false){
-      piston_pressing = true;
-      if (piston_pos == true){
-        piston_pos = false;
-      } else {
-        piston_pos = true;
-      }
+    // piston 
+    if (master.get_digital_new_press(DIGITAL_A)){
+   
 
+      piston_pos = !piston_pos;
       pneumatic_piston.set_value(piston_pos);
       
-    } else {
-      piston_pos = false;
-    }
 
-
-
-
+    } 
     // . . .
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME

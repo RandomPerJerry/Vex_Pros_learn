@@ -8,12 +8,12 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\users\\grace shi\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1",
-            "-isystemc:\\users\\grace shi\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/arm-none-eabi/thumb/v7-a+simd/softfp",
-            "-isystemc:\\users\\grace shi\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/backward",
-            "-isystemc:\\users\\grace shi\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/include",
-            "-isystemc:\\users\\grace shi\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/include-fixed",
-            "-isystemc:\\users\\grace shi\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include",
+            "-isystemc:\\users\\127-jzhang\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1",
+            "-isystemc:\\users\\127-jzhang\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/arm-none-eabi/thumb/v7-a+simd/softfp",
+            "-isystemc:\\users\\127-jzhang\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/backward",
+            "-isystemc:\\users\\127-jzhang\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/include",
+            "-isystemc:\\users\\127-jzhang\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+            "-isystemc:\\users\\127-jzhang\\appdata\\roaming\\code\\user\\globalstorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include",
             "-iquote./include",
             "-iquote./include/okapi/squiggles",
             "-iquote./include/./",
@@ -36,7 +36,7 @@
             "bin/main.cpp.o",
             "src\\main.cpp"
         ],
-        "directory": "C:\\Users\\Grace Shi\\OneDrive - School District 43 (Coquitlam)\\Desktop\\Jerry\\Programming\\Vex_Programe\\EZ-Template-Example-Project-v3.0.0",
+        "directory": "C:\\Users\\127-jzhang\\OneDrive - School District 43 (Coquitlam)\\Desktop\\Jerry\\Programming\\Vex_Programe\\EZ-Template-Example-Project-v3.0.0",
         "file": "src\\main.cpp"
     }
 ]
