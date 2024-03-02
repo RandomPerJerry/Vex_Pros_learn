@@ -141,6 +141,7 @@ void opcontrol() {
   pros::Controller master (pros :: E_CONTROLLER_MASTER);
 
   pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
+  pros::Motor fly_wheel_motor (10, pros::E_MOTOR_GEAR_BLUE);
 
   pros::ADIDigitalOut pneumatic_piston (DIGITAL_SENSOR_PORT);
 
@@ -149,7 +150,9 @@ void opcontrol() {
   
   bool piston_pos = false;
   bool piston_pressing = false;
+  bool flywheel_run = false;
 
+  bool r2_state = false;  
   while (true) {
     
     // PID Tuner
@@ -175,9 +178,6 @@ void opcontrol() {
     // chassis.opcontrol_arcade_flipped(ez::SPLIT); // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE); // Flipped single arcade
 
-    // . . .
-    // Put more user control code here!
-
     // intake
     if (master.get_digital(DIGITAL_L1)){
       intake_motor.move(110);
@@ -189,16 +189,28 @@ void opcontrol() {
       intake_motor.move(0);
     }
 
-    // piston 
-    if (master.get_digital_new_press(DIGITAL_A)){
-   
+// piston 
+  if (master.get_digital_new_press(DIGITAL_B)){
+    piston_pos = !piston_pos;
+    pneumatic_piston.set_value(piston_pos);
+  } 
 
-      piston_pos = !piston_pos;
-      pneumatic_piston.set_value(piston_pos);
-      
+// fly_wheel
+  if (master.get_digital_new_press(DIGITAL_R2)){
+    r2_state = !r2_state;
+  } 
 
-    } 
-    // . . .
+  if (master.get_digital(DIGITAL_L2) || r2_state){  
+    flywheel_run = true;
+  } else {
+    flywheel_run = false;
+  }
+
+  if (flywheel_run){
+    fly_wheel_motor.move(110);
+  } else {
+    fly_wheel_motor.move(0);
+  }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
