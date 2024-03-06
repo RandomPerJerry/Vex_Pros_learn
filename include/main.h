@@ -84,6 +84,15 @@ void opcontrol(void);
  #define DIGITAL_SENSOR_PORT 1
  */
 //#include <iostream>
+
+extern pros::Motor intake_motor;
+extern pros::Motor fly_wheel_motor;
+
+extern pros::ADIDigitalOut pneumatic_piston;
+
 #endif
 
 #endif  // _PROS_MAIN_H_
+
+
+

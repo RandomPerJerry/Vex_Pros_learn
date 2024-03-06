@@ -24,7 +24,7 @@ void default_constants() {
 
   chassis.pid_turn_exit_condition_set(300_ms, 3_deg, 500_ms, 7_deg, 750_ms, 750_ms);
   chassis.pid_swing_exit_condition_set(300_ms, 3_deg, 500_ms, 7_deg, 750_ms, 750_ms);
-  chassis.pid_drive_exit_condition_set(300_ms, 1_in, 500_ms, 3_in, 650_ms, 750_ms);
+  chassis.pid_drive_exit_condition_set(300_ms, 1_in, 500_ms, 3_in, 750_ms, 750_ms);
 
   chassis.slew_drive_constants_set(7_in, 80);
 }
@@ -47,6 +47,7 @@ void drive_example() {
 
   chassis.pid_drive_set(-12_in, DRIVE_SPEED);
   chassis.pid_wait();
+
 }
 
 ///
@@ -194,9 +195,9 @@ void interfered_example() {
   chassis.pid_wait();
 }
 
-void amth() {
-  chassis.pid_drive_set(10,110,true);
-
+void testing() {
+  chassis.pid_drive_set(40_in, DRIVE_SPEED);
+  chassis.pid_wait();
 }
 // Make your own autonomous functions here!
 // . . .

@@ -58,14 +58,10 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-    Auton("Example Drive\n\nDrive forward and come back.", drive_example),
-    Auton("Example Turn\n\nTurn 3 times.", turn_example),
-    Auton("Drive and Turn\n\nDrive forward, turn, come back. ", drive_and_turn),
-    Auton("Drive and Turn\n\nSlow down during drive.", wait_until_change_speed),
-    Auton("Swing Example\n\nSwing in an 'S' curve", swing_example),
-    Auton("Combine all 3 movements", combining_movements),
-    Auton("Interference\n\nAfter driving forward, robot performs differently if interfered or not.", interfered_example),
+    Auton("\n\ntest num one", testing),
+
   });
+
 
   // Initialize chassis and auton selector
   chassis.initialize();
@@ -121,7 +117,6 @@ void autonomous() {
 }
 
 
-
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -135,17 +130,17 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
 #define DIGITAL_SENSOR_PORT 'F'
+pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
+pros::Motor fly_wheel_motor (10, pros::E_MOTOR_GEAR_BLUE);
+
+pros::Controller master (pros :: E_CONTROLLER_MASTER);
+
+pros::ADIDigitalOut pneumatic_piston (DIGITAL_SENSOR_PORT);
+
 void opcontrol() {
   // This is preference to what you like to drive on
-  pros::Controller master (pros :: E_CONTROLLER_MASTER);
-
-  pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
-  pros::Motor fly_wheel_motor (10, pros::E_MOTOR_GEAR_BLUE);
-
-  pros::ADIDigitalOut pneumatic_piston (DIGITAL_SENSOR_PORT);
-
-
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
   
   bool piston_pos = false;
@@ -153,8 +148,14 @@ void opcontrol() {
   bool flywheel_run = false;
 
   bool r2_state = false;  
+
+  chassis.pid_tuner_increment_p_set(0.25);
+  chassis.pid_tuner_increment_i_get(0);
+  chassis.pid_tuner_increment_d_set(0);
+
+  // for next day print the values
   while (true) {
-    
+
     // PID Tuner
     // After you find values that you're happy with, you'll have to set them in auton.cpp
     if (!pros::competition::is_connected()) { 
@@ -162,15 +163,20 @@ void opcontrol() {
       //  When enabled: 
       //  * use A and Y to increment / decrement the constants
       //  * use the arrow keys to navigate the constants
-      if (master.get_digital_new_press(DIGITAL_X)) 
+      if (master.get_digital_new_press(DIGITAL_LEFT)) 
         chassis.pid_tuner_toggle();
-        
-      // Trigger the selected autonomous routine
-      // if (master.get_digital_new_press(DIGITAL_B)) 
-      //   autonomous();
 
-      chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
-    } 
+
+      if (master.get_digital_new_press(DIGITAL_RIGHT)) 
+        autonomous();
+      
+      chassis.pid_tuner_iterate();
+      pros::lcd::print(1, )
+
+      
+
+    }
+
 
     // chassis.opcontrol_tank(); // Tank control0
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
@@ -213,5 +219,6 @@ void opcontrol() {
   }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
-  }
+  
+ }
 }
