@@ -20,10 +20,10 @@ ez::Drive chassis (
   ,11
 
   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-  ,4.125
+  ,3.25
 
   // Cartridge RPM
-  ,200
+  ,600
 
   // External Gear Ratio (MUST BE DECIMAL) This is WHEEL GEAR / MOTOR GEAR
   // eg. if your drive is 84:36 where the 36t is powered, your RATIO would be 84/36 which is 2.333

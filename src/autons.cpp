@@ -6,7 +6,7 @@
 /////
 
 // These are out of 127
-const int DRIVE_SPEED = 110;  
+const int DRIVE_SPEED = 127;  
 const int TURN_SPEED = 90;
 const int SWING_SPEED = 90;
 
@@ -18,7 +18,7 @@ const int SWING_SPEED = 90;
 ///
 void default_constants() {
   chassis.pid_heading_constants_set(3, 0, 20);
-  chassis.pid_drive_constants_set(1, 0, 0);
+  chassis.pid_drive_constants_set(30, 0, 10);
   chassis.pid_turn_constants_set(3, 0, 20);
   chassis.pid_swing_constants_set(5, 0, 30);
 
