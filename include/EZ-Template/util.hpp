@@ -35,6 +35,7 @@ void ez_template_print();
  */
 void screen_print(std::string text, int line = 0);
 
+
 /////
 //
 // Public Variables

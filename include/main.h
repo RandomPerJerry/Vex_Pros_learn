@@ -88,7 +88,8 @@ void opcontrol(void);
 extern pros::Motor intake_motor;
 extern pros::Motor fly_wheel_motor;
 
-extern pros::ADIDigitalOut pneumatic_piston;
+extern pros::ADIDigitalOut pneumatic_piston1;
+extern pros::ADIDigitalOut pneumatic_piston2;
 
 #endif
 

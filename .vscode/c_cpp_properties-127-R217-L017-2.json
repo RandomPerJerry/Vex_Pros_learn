@@ -4,6 +4,7 @@
       "name": "PROS Project",
       "includePath": [
         "${workspaceFolder}/**",
+        "c:\\Users\\Grace Shi\\OneDrive - School District 43 (Coquitlam)\\Desktop\\Jerry\\Programming\\Vex_Programe\\EZ-Template-Example-Project-v3.0.0\\include",
         "c:\\Users\\127-jzhang\\OneDrive - School District 43 (Coquitlam)\\Desktop\\Jerry\\Programming\\Vex_Programe\\EZ-Template-Example-Project-v3.0.0\\include"
       ],
       "defines": [

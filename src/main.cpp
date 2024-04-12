@@ -17,7 +17,7 @@ ez::Drive chassis (
   ,{14, 15, 16}
 
   // IMU Port
-  ,6
+  ,11
 
   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
   ,4.125
@@ -58,18 +58,14 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-    Auton("\n\ntest num one", testing),
-
+    Auton("\n\ntest num one", testing)
   });
-
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
   master.rumble(".");
 }
-
-
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -79,8 +75,6 @@ void initialize() {
 void disabled() {
   // . . .
 }
-
-
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -94,7 +88,6 @@ void disabled() {
 void competition_initialize() {
   // . . .
 }
-
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -131,54 +124,34 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
-#define DIGITAL_SENSOR_PORT 'F'
+#define DIGITAL_SENSOR_PORT1 'G'
+#define DIGITAL_SENSOR_PORT2 'H'
+
+// controller
+pros::Controller master (pros :: E_CONTROLLER_MASTER);
+
+// motors
 pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
 pros::Motor fly_wheel_motor (10, pros::E_MOTOR_GEAR_BLUE);
 
-pros::Controller master (pros :: E_CONTROLLER_MASTER);
-
-pros::ADIDigitalOut pneumatic_piston (DIGITAL_SENSOR_PORT);
+// pistons
+pros::ADIDigitalOut pneumatic_piston1 (DIGITAL_SENSOR_PORT1);
+pros::ADIDigitalOut pneumatic_piston2 (DIGITAL_SENSOR_PORT2);
 
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
   
-  bool piston_pos = false;
+  bool piston_pos1 = false;
+  bool piston_pos2 = true;
   bool piston_pressing = false;
   bool flywheel_run = false;
-
-  bool r2_state = false;  
-
-  chassis.pid_tuner_increment_p_set(0.25);
-  chassis.pid_tuner_increment_i_get(0);
-  chassis.pid_tuner_increment_d_set(0);
-
+  
+  pneumatic_piston1.set_value(piston_pos1);
+  pneumatic_piston2.set_value(piston_pos2);
   // for next day print the values
   while (true) {
 
-    // PID Tuner
-    // After you find values that you're happy with, you'll have to set them in auton.cpp
-    if (!pros::competition::is_connected()) { 
-      // Enable / Disable PID Tuner
-      //  When enabled: 
-      //  * use A and Y to increment / decrement the constants
-      //  * use the arrow keys to navigate the constants
-      if (master.get_digital_new_press(DIGITAL_LEFT)) 
-        chassis.pid_tuner_toggle();
-
-
-      if (master.get_digital_new_press(DIGITAL_RIGHT)) 
-        autonomous();
-      
-      chassis.pid_tuner_iterate();
-      pros::lcd::print(1, )
-
-      
-
-    }
-
-
-    // chassis.opcontrol_tank(); // Tank control0
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE); // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT); // Flipped split arcade
@@ -192,33 +165,47 @@ void opcontrol() {
       intake_motor.move(-110);
     
     } else {
-      intake_motor.move(0);
+      intake_motor.brake();
     }
 
-// piston 
-  if (master.get_digital_new_press(DIGITAL_B)){
-    piston_pos = !piston_pos;
-    pneumatic_piston.set_value(piston_pos);
-  } 
+    // piston 
+    if (master.get_digital_new_press(DIGITAL_DOWN)){
+      piston_pos1 = !piston_pos1;
+      pneumatic_piston1.set_value(piston_pos1);
+    } 
 
-// fly_wheel
-  if (master.get_digital_new_press(DIGITAL_R2)){
-    r2_state = !r2_state;
-  } 
+    if (master.get_digital_new_press(DIGITAL_RIGHT)){
+      piston_pos2 = !piston_pos2;
+      pneumatic_piston2.set_value(piston_pos2);
+    }
 
-  if (master.get_digital(DIGITAL_L2) || r2_state){  
-    flywheel_run = true;
-  } else {
-    flywheel_run = false;
-  }
+    if (master.get_digital_new_press(DIGITAL_B)){
+      if (piston_pos1 && piston_pos2 == false){
+        piston_pos1 = false; 
+        piston_pos2 = true;
 
-  if (flywheel_run){
-    fly_wheel_motor.move(110);
-  } else {
-    fly_wheel_motor.move(0);
-  }
+        pneumatic_piston1.set_value(piston_pos1);
+        pneumatic_piston2.set_value(piston_pos2);
+      } else {
+        piston_pos1 = true;
+        piston_pos2 = false;
+        
+        pneumatic_piston1.set_value(piston_pos1);
+        pneumatic_piston2.set_value(piston_pos2);
+      }
+    }
+
+  // fly_wheel
+    // if (master.get_digital_new_press(DIGITAL_R2)){
+    //   flywheel_run = !flywheel_run;
+    // } 
+
+    // if (master.get_digital(DIGITAL_L2) || flywheel_run){  
+    //   fly_wheel_motor.move(-110);
+    // } else {
+    //   fly_wheel_motor.move(0);
+    // }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
-  
- }
+  }
 }
