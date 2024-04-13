@@ -30,8 +30,28 @@ void default_constants() {
 }
 
 void testing() {
-  chassis.pid_drive_set(24_in, DRIVE_SPEED);
+  pneumatic_piston1.set_value(true);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
+  pneumatic_piston1.set_value(false);
+  chassis.pid_turn_set(130_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(7_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_wait_until
 }
+
+
+
+//   chassis.pid_turn_set(0_deg, TURN_SPEED);
+//   chassis.pid_wait();
+
+//   chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+//   chassis.pid_wait();
+
 // Make your own autonomous functions here!
 // . . .

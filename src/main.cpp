@@ -143,12 +143,10 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
   
   bool piston_pos1 = false;
-  bool piston_pos2 = true;
+  bool piston_pos2 = false;
   bool piston_pressing = false;
-  bool flywheel_run = false;
-  
-  pneumatic_piston1.set_value(piston_pos1);
-  pneumatic_piston2.set_value(piston_pos2);
+  // bool flywheel_run = false;
+
   // for next day print the values
   while (true) {
 
@@ -180,15 +178,14 @@ void opcontrol() {
     }
 
     if (master.get_digital_new_press(DIGITAL_B)){
-      if (piston_pos1 && piston_pos2 == false){
-        piston_pos1 = false; 
-        piston_pos2 = true;
+      if (piston_pos1 && piston_pos2){
 
+        piston_pos1 = piston_pos2 = false;
         pneumatic_piston1.set_value(piston_pos1);
         pneumatic_piston2.set_value(piston_pos2);
       } else {
-        piston_pos1 = true;
-        piston_pos2 = false;
+
+        piston_pos1 = piston_pos2 = true;
         
         pneumatic_piston1.set_value(piston_pos1);
         pneumatic_piston2.set_value(piston_pos2);
