@@ -124,8 +124,10 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
-#define DIGITAL_SENSOR_PORT1 'G'
-#define DIGITAL_SENSOR_PORT2 'H'
+
+
+// #define DIGITAL_SENSOR_PORT1 'G'
+// #define DIGITAL_SENSOR_PORT2 'H'
 
 // controller
 pros::Controller master (pros :: E_CONTROLLER_MASTER);
@@ -135,8 +137,8 @@ pros::Motor intake_motor (5, pros::E_MOTOR_GEAR_BLUE);
 pros::Motor fly_wheel_motor (10, pros::E_MOTOR_GEAR_BLUE);
 
 // pistons
-pros::ADIDigitalOut pneumatic_piston1 (DIGITAL_SENSOR_PORT1);
-pros::ADIDigitalOut pneumatic_piston2 (DIGITAL_SENSOR_PORT2);
+pros::ADIDigitalOut pneumatic_piston1 ('G');
+pros::ADIDigitalOut pneumatic_piston2 ('H');
 
 void opcontrol() {
   // This is preference to what you like to drive on
@@ -145,15 +147,10 @@ void opcontrol() {
   bool piston_pos1 = false;
   bool piston_pos2 = false;
   bool piston_pressing = false;
-  // bool flywheel_run = false;
 
-  // for next day print the values
   while (true) {
 
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
-    // chassis.opcontrol_arcade_standard(ez::SINGLE); // Standard single arcade
-    // chassis.opcontrol_arcade_flipped(ez::SPLIT); // Flipped split arcade
-    // chassis.opcontrol_arcade_flipped(ez::SINGLE); // Flipped single arcade
 
     // intake
     if (master.get_digital(DIGITAL_L1)){
@@ -191,17 +188,6 @@ void opcontrol() {
         pneumatic_piston2.set_value(piston_pos2);
       }
     }
-
-  // fly_wheel
-    // if (master.get_digital_new_press(DIGITAL_R2)){
-    //   flywheel_run = !flywheel_run;
-    // } 
-
-    // if (master.get_digital(DIGITAL_L2) || flywheel_run){  
-    //   fly_wheel_motor.move(-110);
-    // } else {
-    //   fly_wheel_motor.move(0);
-    // }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
